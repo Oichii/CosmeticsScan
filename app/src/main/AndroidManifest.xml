@@ -4,6 +4,7 @@
     package="com.AD.cosmeticsscan">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"></activity>
         <activity android:name=".IngreedientsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

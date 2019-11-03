@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ingredient.setMovementMethod(ScrollingMovementMethod())
         ingredient.text = "It will be supper cute app"
-        //selText.text = "select photo from gallery:"
+
     }
 
     fun countB(view: View) {
@@ -109,7 +109,6 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
-
 
    fun analyze(view: View){
        val intent = Intent(this, IngreedientsActivity:: class.java)

@@ -37,7 +37,6 @@ class IngreedientsActivity : AppCompatActivity() {
             ingredients_list.text = "ingredients list is empty select another photo"
         }
 
-
         //informations.text = "Informations about ingredients:"
     }
     fun send_question(){
