@@ -41,7 +41,7 @@ class IngreedientsActivity : AppCompatActivity() {
         //informations.text = "Informations about ingredients:"
     }
     fun send_question(){
-        
+
     }
 
 }

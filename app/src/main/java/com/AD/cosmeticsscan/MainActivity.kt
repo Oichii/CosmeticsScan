@@ -94,20 +94,20 @@ class MainActivity : AppCompatActivity() {
             img.setImageURI(data?.data)
 
         val image: FirebaseVisionImage
-        val uri = data?.data.toString()
-        val urii = uri.toUri()
-        image = FirebaseVisionImage.fromFilePath(applicationContext, urii)
+        val uri = data?.data
+        if (uri != null) {
+            image = FirebaseVisionImage.fromFilePath(applicationContext, uri)
+            val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
+            val result = detector.processImage(image)
+                .addOnSuccessListener { firebaseVisionText ->
+                    ingreedients_list = firebaseVisionText.text
+                    ingredient.text = firebaseVisionText.text
 
-        val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
-        val result = detector.processImage(image)
-            .addOnSuccessListener { firebaseVisionText ->
-                ingreedients_list = firebaseVisionText.text
-                ingredient.text = firebaseVisionText.text
-
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "nie udalo sie XDD", Toast.LENGTH_SHORT).show()
-            }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "no text found", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
 
