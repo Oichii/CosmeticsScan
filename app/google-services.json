@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "638186455378",
+    "firebase_url": "https://cosmeticsscan-7c165.firebaseio.com",
+    "project_id": "cosmeticsscan-7c165",
+    "storage_bucket": "cosmeticsscan-7c165.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638186455378:android:288b66b6be96f04ea57a8b",
+        "android_client_info": {
+          "package_name": "com.AD.cosmeticsscan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638186455378-guh9am5rnnc9phcruq03f601dsh6paek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGsHnwlha6iU2D7kcMQ4r2NhpK_7cx8Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638186455378-guh9am5rnnc9phcruq03f601dsh6paek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3CCDE"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="391dp"
+        android:layout_height="257dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047"
+        tools:srcCompat="@tools:sample/backgrounds/scenic[1]" />
+
+    <TextView
+        android:id="@+id/ingredient"
+        android:layout_width="390dp"
+        android:layout_height="290dp"
+        android:background="#FCE2EB"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img"
+        app:layout_constraintVertical_bias="0.515" />
+
+    <Button
+        android:id="@+id/sellectButton"
+        android:layout_width="390dp"
+        android:layout_height="80dp"
+        android:backgroundTint="#4FE91E63"
+        android:drawableTop="@android:drawable/ic_menu_gallery"
+        android:onClick="countB"
+        android:outlineAmbientShadowColor="#00CC5353"
+        android:outlineProvider="none"
+        android:outlineSpotShadowColor="#00E91E63"
+        android:scrollbars="vertical"
+        android:text="Select from Gallery"
+        app:layout_constraintBottom_toTopOf="@+id/ingredient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img"
+        app:layout_constraintVertical_bias="0.625" />
+
+    <Button
+        android:id="@+id/anzlyzeButton"
+        android:layout_width="390dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#4FE91E63"
+        android:drawableTop="@android:drawable/btn_star_big_off"
+        android:onClick="analyze"
+        android:outlineProvider="none"
+        android:text="Analyze"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredient"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
