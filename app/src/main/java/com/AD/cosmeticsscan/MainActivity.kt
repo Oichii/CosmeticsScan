@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     }
 
    fun analyze(view: View){
-       val intent = Intent(this, IngreedientsActivity:: class.java)
+       val intent = Intent(this, ScrollingActivity:: class.java)
 
        if (ingreedients_list != null){
            intent.putExtra("ingredients_list", ingreedients_list)
