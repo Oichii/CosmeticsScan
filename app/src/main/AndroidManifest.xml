@@ -15,15 +15,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
+            android:name=".ListActivity"
+            android:label="@string/title_activity_list"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.AD.cosmeticsscan.MainActivity" />
         </activity>
-        <activity android:name=".IngreedientsActivity" />
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.AD.cosmeticsscan.MainActivity" />
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

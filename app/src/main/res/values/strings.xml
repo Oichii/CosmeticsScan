@@ -94,5 +94,28 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    // actionbar text
     <string name="action_settings">Settings</string>
+    <string name="action_help">Help</string>
+    <string name="action_select">Select</string>
+    <string name="action_analyze">Analyze</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_activity_list">ListActivity</string>
+    // titles text
+    <string name="help_title">Instruction</string>
+    <string name="list_title">List of Ingredients</string>
+    <string name="instructionsText">"How to use the app:\n\n"
+
+
+        "1. Select picture of the ingredient list from the gallery\n"
+        "2. Wait until recognised text will appear below the image\n"
+        "3. Press star button to analyze the ingredients of the product\n"
+        "4. Ingredients and their description will appear on the list\n"
+        "5. Enjoy\n\n\n"
+
+
+        "Application was created by AD for WPAM, date 09.11.2019"
+
+     </string>
+    <string name="bg_action">bg_action</string>
 </resources>

@@ -3,16 +3,17 @@ package com.AD.cosmeticsscan
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_ingreedients.*
-import kotlinx.android.synthetic.main.activity_scrolling.*
+import kotlinx.android.synthetic.main.activity_list.*
 
-class ScrollingActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scrolling)
+        setContentView(R.layout.activity_list)
         setSupportActionBar(toolbar)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val linearLayout = findViewById<LinearLayout>(R.id.linear)
         val extras = intent.extras
@@ -20,8 +21,11 @@ class ScrollingActivity : AppCompatActivity() {
             val ingredientsList = extras.getString("ingredients_list")
 
             if (ingredientsList!= null) {
-                val elements = ingredientsList.split(",")
-                var first = elements[0].toString().split(" ")
+                val ingredientList = ingredientsList.removePrefix("INGREDIENTS")
+                val iList = ingredientList.replace("\\s".toRegex(), " ")
+                val elements = iList.split(",")
+                var first = elements[0].split(" ")
+
                 for(element in elements){
                     val tvdynamic = TextView(this)
                     tvdynamic.textSize = 20f
@@ -31,7 +35,13 @@ class ScrollingActivity : AppCompatActivity() {
                 }
             }
         }else {
-            ingredients_list.text = "ingredients list is empty select another photo"
+            val tvdynamic = TextView(this)
+            tvdynamic.textSize = 20f
+            tvdynamic.text = "select another photo"
+            linearLayout.addView(tvdynamic)
         }
     }
 }
+
+
+

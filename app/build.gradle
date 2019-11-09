@@ -44,5 +44,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.mediarouter:mediarouter:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

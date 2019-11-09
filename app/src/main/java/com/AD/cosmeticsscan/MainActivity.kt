@@ -13,6 +13,8 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.pm.PackageManager
 import android.text.method.ScrollingMovementMethod
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,7 +37,31 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun countB(view: View) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.helpButton -> {
+                getHelp()
+                return true
+            }
+            R.id.analizeButton ->{
+                analyze()
+                return true
+            }
+            R.id.selectButton ->{
+                selectImage()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun selectImage() {
         count++
         ingredient.text = "hello $count"
 
@@ -110,8 +136,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-   fun analyze(view: View){
-       val intent = Intent(this, ScrollingActivity:: class.java)
+   private fun analyze(){
+       val intent = Intent(this, ListActivity:: class.java)
 
        if (ingreedients_list != null){
            intent.putExtra("ingredients_list", ingreedients_list)
@@ -120,4 +146,8 @@ class MainActivity : AppCompatActivity() {
        }
        startActivity(intent)
    }
+    private fun getHelp(){
+        val intent = Intent(this, HelpActivity:: class.java)
+        startActivity(intent)
+    }
 }

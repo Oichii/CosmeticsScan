@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ScrollingActivity">
+    tools:context=".ListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -20,13 +20,17 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleGravity="center"
-            app:expandedTitleMargin="10dp"
-            app:expandedTitleMarginBottom="10dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="true"
             app:toolbarId="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/bg_action"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@mipmap/leafs" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -34,12 +38,11 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:subtitleTextColor="#00A51B1B"
-                app:title="@string/app_name" />
+                app:title="@string/list_title" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_scrolling" />
+    <include layout="@layout/content_list" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,13 +5,15 @@
     android:id="@+id/Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3CCDE"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="391dp"
-        android:layout_height="257dp"
+        android:layout_width="390dp"
+        android:layout_height="380dp"
+        android:scaleType="fitCenter"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.467"
@@ -24,48 +26,12 @@
         android:id="@+id/ingredient"
         android:layout_width="390dp"
         android:layout_height="290dp"
-        android:background="#FCE2EB"
         android:scrollbars="vertical"
-        android:text="TextView"
+        android:background="@drawable/border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img"
         app:layout_constraintVertical_bias="0.515" />
-
-    <Button
-        android:id="@+id/sellectButton"
-        android:layout_width="390dp"
-        android:layout_height="80dp"
-        android:backgroundTint="#4FE91E63"
-        android:drawableTop="@android:drawable/ic_menu_gallery"
-        android:onClick="countB"
-        android:outlineAmbientShadowColor="#00CC5353"
-        android:outlineProvider="none"
-        android:outlineSpotShadowColor="#00E91E63"
-        android:scrollbars="vertical"
-        android:text="Select from Gallery"
-        app:layout_constraintBottom_toTopOf="@+id/ingredient"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img"
-        app:layout_constraintVertical_bias="0.625" />
-
-    <Button
-        android:id="@+id/anzlyzeButton"
-        android:layout_width="390dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="28dp"
-        android:backgroundTint="#4FE91E63"
-        android:drawableTop="@android:drawable/btn_star_big_off"
-        android:onClick="analyze"
-        android:outlineProvider="none"
-        android:text="Analyze"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
