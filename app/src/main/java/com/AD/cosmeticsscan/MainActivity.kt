@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ingredient.setMovementMethod(ScrollingMovementMethod())
-        ingredient.text = "It will be supper cute app"
+
 
     }
 
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Adds functionaries to menu buttons
         return when (item.itemId) {
             R.id.helpButton -> {
                 getHelp()
@@ -62,9 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectImage() {
-        count++
-        ingredient.text = "hello $count"
-
+        // check for the permissions to access internal storage
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // check for the permission
             if (ContextCompat.checkSelfPermission(
@@ -85,8 +84,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             pickImageFromGallery()
         }
-        // recognise text on image
-        //
     }
 
     override fun onRequestPermissionsResult(
@@ -107,7 +104,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pickImageFromGallery() {
-        //val intent = Intent(ACTION_PICK)
         val intent = Intent(ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(Intent.createChooser(intent, "sellect image"), PICK_IMAGE_CODE)
