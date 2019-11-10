@@ -1,15 +1,31 @@
 package com.AD.cosmeticsscan
 
 import android.os.Bundle
+
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+
 import kotlinx.android.synthetic.main.activity_list.*
-import java.net.URL
+import kotlinx.android.synthetic.main.content_list.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
+
+
 
 class ListActivity : AppCompatActivity() {
-    val baseURL = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=cosmetic-ingredient-database-ingredients-and-fragrance-inventory&q=zinc+oxide&lang=en&rows=1&facet=update_date&facet=restriction&facet=function"
+    private var disposable: Disposable? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
@@ -17,6 +33,14 @@ class ListActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val linearLayout = findViewById<LinearLayout>(R.id.linear)
+
+        val service = Retrofit.Builder()
+            .baseUrl("https://public.opendatasoft.com/")
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CosmeticsIngredientsService::class.java)
+
         val extras = intent.extras
         if (extras != null) {
             val ingredientsList = extras.getString("ingredients_list")
@@ -27,11 +51,18 @@ class ListActivity : AppCompatActivity() {
                 val elements = iList.split(",")
 
                 for(element in elements){
-                    val tvdynamic = TextView(this)
-                    tvdynamic.textSize = 20f
-                    tvdynamic.text = element
-                    linearLayout.addView(tvdynamic)
-
+// TODO: sort ingredients in previous order
+                    disposable = service.checkIngredient("cosmetic-ingredient-database-ingredients-and-fragrance-inventory",element, 1)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                            { result ->
+                                val tvdynamic = TextView(this)
+                                tvdynamic.textSize = 20f
+                                tvdynamic.text = getString(R.string.ingredient_description, element, result.records[0].fields.function)
+                                linearLayout.addView(tvdynamic)},
+                            { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
+                        )
                 }
             }
         }else {
@@ -40,13 +71,14 @@ class ListActivity : AppCompatActivity() {
             tvdynamic.text = "select another photo"
             linearLayout.addView(tvdynamic)
         }
-    }
-    // TODO: make an api calls to the database and print the result
-    private fun sendReguest(){
-        val result = URL("<API Call>").readText()
 
+    }
+    override fun onPause() {
+        super.onPause()
+        disposable?.dispose()
     }
 }
-
+//https://public.opendatasoft.com/
+///api/records/1.0/search/?dataset=cosmetic-ingredient-database-ingredients-and-fragrance-inventory&q=zinc+oxide&lang=en&rows=1
 
 

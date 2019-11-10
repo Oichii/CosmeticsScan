@@ -11,28 +11,54 @@
     <ImageView
         android:id="@+id/img"
         android:layout_width="390dp"
-        android:layout_height="380dp"
+        android:layout_height="390dp"
+        android:contentDescription="@string/ingredients_image"
         android:scaleType="fitCenter"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047"
+        app:layout_constraintVertical_bias="0.108"
         tools:srcCompat="@tools:sample/backgrounds/scenic[1]" />
 
     <TextView
         android:id="@+id/ingredient"
         android:layout_width="390dp"
-        android:layout_height="290dp"
-        android:background="@drawable/border"
+        android:layout_height="240dp"
+        android:fontFamily="@font/alice"
         android:scrollbars="vertical"
         android:text="@string/welcome_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintVertical_bias="0.659" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alice"
+        android:text="@string/recognised_label"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/ingredient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alice"
+        android:text="@string/top_label"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -120,13 +120,13 @@ class MainActivity : AppCompatActivity() {
         if (uri != null) {
             image = FirebaseVisionImage.fromFilePath(applicationContext, uri)
             val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
-            val result = detector.processImage(image)
+            detector.processImage(image)
                 .addOnSuccessListener { firebaseVisionText ->
                     ingreedients_list = firebaseVisionText.text
                     ingredient.text = firebaseVisionText.text
 
                 }
-                .addOnFailureListener { e ->
+                .addOnFailureListener {
                     Toast.makeText(this, "no text found", Toast.LENGTH_SHORT).show()
                 }
         }
@@ -134,12 +134,7 @@ class MainActivity : AppCompatActivity() {
 
    private fun analyze(){
        val intent = Intent(this, ListActivity:: class.java)
-
-       if (ingreedients_list != null){
-           intent.putExtra("ingredients_list", ingreedients_list)
-       }else{
-           ingredient.text = "hallo"
-       }
+       intent.putExtra("ingredients_list", ingreedients_list)
        startActivity(intent)
    }
     private fun getHelp(){
