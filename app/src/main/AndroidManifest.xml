@@ -32,7 +32,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.AD.cosmeticsscan.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

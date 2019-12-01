@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     PERMISSION_CODE
                 )
-                ingredient.text = "hello"
+
             } else {
                 pickImageFromGallery()
             }
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             detector.processImage(image)
                 .addOnSuccessListener { firebaseVisionText ->
                     ingreedients_list = firebaseVisionText.text
-                    ingredient.text = firebaseVisionText.text
+                    ingredient.setText(firebaseVisionText.text)
 
                 }
                 .addOnFailureListener {
@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() {
     }
 
    private fun analyze(){
+       ingreedients_list = ingredient.text.toString()
        val intent = Intent(this, ListActivity:: class.java)
        intent.putExtra("ingredients_list", ingreedients_list)
        startActivity(intent)

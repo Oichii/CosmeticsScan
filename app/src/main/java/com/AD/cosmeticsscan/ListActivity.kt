@@ -41,7 +41,9 @@ class ListActivity : AppCompatActivity() {
                 val iList = ingredientList.replace("\\s".toRegex(), " ")
                 val elements = iList.split(",")
                 // loop over every element of the ingredients list to call for the description
-                for(element in elements){
+                var i = 0
+                for((number, element)in elements.withIndex()){
+                    i++
                 // TODO: sort ingredients in previous order
                 // TODO: check if restriction is present and if is print it as well
                     disposable = service.checkIngredient("cosmetic-ingredient-database-ingredients-and-fragrance-inventory",element, 1)
@@ -51,7 +53,7 @@ class ListActivity : AppCompatActivity() {
                             { result ->
                                 val tvdynamic = TextView(this)
                                 tvdynamic.textSize = 20f
-                                tvdynamic.text = getString(R.string.ingredient_description, element.toLowerCase(), result.records[0].fields.function.toLowerCase())
+                                tvdynamic.text = getString(R.string.ingredient_description, (number+1).toString(), element.toLowerCase(), result.records[0].fields.function.toLowerCase())
                                 linearLayout.addView(tvdynamic)},
                             { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
                         )

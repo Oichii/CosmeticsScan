@@ -36,5 +36,5 @@
     <string name="top_label">Selected Image</string>
     <string name="recognised_label">Ingredients Found:</string>
 
-    <string name="ingredient_description">Ingredient %1$s is %2$s</string>
+    <string name="ingredient_description">%1$s. Ingredient %2$s is: %3$s\n</string>
 </resources>

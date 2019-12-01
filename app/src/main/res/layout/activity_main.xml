@@ -24,27 +24,12 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic[1]" />
 
     <TextView
-        android:id="@+id/ingredient"
-        android:layout_width="390dp"
-        android:layout_height="240dp"
-        android:fontFamily="@font/alice"
-        android:scrollbars="vertical"
-        android:text="@string/welcome_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img"
-        app:layout_constraintVertical_bias="0.659" />
-
-    <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/alice"
         android:text="@string/recognised_label"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/ingredient"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img" />
@@ -55,10 +40,24 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/alice"
         android:text="@string/top_label"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ingredient"
+        android:layout_width="378dp"
+        android:layout_height="234dp"
+        android:backgroundTint="#FFFFFF"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/welcome_text"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
