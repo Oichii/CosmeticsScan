@@ -1,7 +1,6 @@
 package com.AD.cosmeticsscan
 
 import android.os.Bundle
-
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -9,19 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-
 import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.content_list.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-
 
 
 class ListActivity : AppCompatActivity() {
@@ -46,12 +36,14 @@ class ListActivity : AppCompatActivity() {
             val ingredientsList = extras.getString("ingredients_list")
 
             if (ingredientsList!= null) {
+                //prepare text block to use in API calls
                 val ingredientList = ingredientsList.removePrefix("INGREDIENTS")
                 val iList = ingredientList.replace("\\s".toRegex(), " ")
                 val elements = iList.split(",")
-
+                // loop over every element of the ingredients list to call for the description
                 for(element in elements){
-// TODO: sort ingredients in previous order
+                // TODO: sort ingredients in previous order
+                // TODO: check if restriction is present and if is print it as well
                     disposable = service.checkIngredient("cosmetic-ingredient-database-ingredients-and-fragrance-inventory",element, 1)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +51,7 @@ class ListActivity : AppCompatActivity() {
                             { result ->
                                 val tvdynamic = TextView(this)
                                 tvdynamic.textSize = 20f
-                                tvdynamic.text = getString(R.string.ingredient_description, element, result.records[0].fields.function)
+                                tvdynamic.text = getString(R.string.ingredient_description, element.toLowerCase(), result.records[0].fields.function.toLowerCase())
                                 linearLayout.addView(tvdynamic)},
                             { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
                         )
@@ -71,14 +63,12 @@ class ListActivity : AppCompatActivity() {
             tvdynamic.text = "select another photo"
             linearLayout.addView(tvdynamic)
         }
-
     }
     override fun onPause() {
         super.onPause()
         disposable?.dispose()
     }
 }
-//https://public.opendatasoft.com/
-///api/records/1.0/search/?dataset=cosmetic-ingredient-database-ingredients-and-fragrance-inventory&q=zinc+oxide&lang=en&rows=1
+
 
 
