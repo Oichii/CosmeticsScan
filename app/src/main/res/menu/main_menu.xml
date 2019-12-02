@@ -16,4 +16,10 @@
         android:icon="@android:drawable/btn_star"
         android:title="@string/action_analyze"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/favButton"
+        android:icon="@android:drawable/ic_lock_lock"
+        android:title="@string/action_favourite"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
 </menu>

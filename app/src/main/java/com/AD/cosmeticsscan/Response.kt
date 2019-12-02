@@ -1,6 +1,6 @@
 package com.AD.cosmeticsscan
 // classes used to describe format of JSON files used by database
-
+// response from cosmetics database
 data class Response (
     val nhits: Int,
     val parameters: Parameters,

@@ -1,6 +1,8 @@
 package com.AD.cosmeticsscan
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -44,8 +46,9 @@ class ListActivity : AppCompatActivity() {
                 var i = 0
                 for((number, element)in elements.withIndex()){
                     i++
-                // TODO: sort ingredients in previous order
-                // TODO: check if restriction is present and if is print it as well
+                    // TODO: sort ingredients in previous order
+                    // TODO: check if restriction is present and if is print it as well
+                    // TODO: add buttons to set ingredient as favourite
                     disposable = service.checkIngredient("cosmetic-ingredient-database-ingredients-and-fragrance-inventory",element, 1)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -62,8 +65,26 @@ class ListActivity : AppCompatActivity() {
         }else {
             val tvdynamic = TextView(this)
             tvdynamic.textSize = 20f
-            tvdynamic.text = "select another photo"
+            tvdynamic.text = "select another photo" //replace this with value
             linearLayout.addView(tvdynamic)
+        }
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_list, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Adds functionaries to menu buttons
+        return when (item.itemId) {
+            R.id.saveButton -> {
+                // TODO: add saveing to database
+                Toast.makeText(this, "ingredient saved", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
     override fun onPause() {

@@ -58,6 +58,10 @@ class MainActivity : AppCompatActivity() {
                 selectImage()
                 return true
             }
+            R.id.favButton ->{
+                browseFavs()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -139,6 +143,10 @@ class MainActivity : AppCompatActivity() {
        startActivity(intent)
    }
     private fun getHelp(){
+        val intent = Intent(this, HelpActivity:: class.java)
+        startActivity(intent)
+    }
+    private fun browseFavs(){
         val intent = Intent(this, HelpActivity:: class.java)
         startActivity(intent)
     }
