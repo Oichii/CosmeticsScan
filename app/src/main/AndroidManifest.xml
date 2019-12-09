@@ -13,7 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".CosmeticListActivity"
+            android:label="@string/title_activity_cosmetic_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.AD.cosmeticsscan.MainActivity" />
+        </activity>
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_list"
@@ -32,7 +42,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.AD.cosmeticsscan.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
     private fun browseFavs(){
-        val intent = Intent(this, HelpActivity:: class.java)
+        val intent = Intent(this, CosmeticListActivity:: class.java)
         startActivity(intent)
     }
 }
