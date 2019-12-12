@@ -26,6 +26,10 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.appcompat.app.AlertDialog
+import com.google.android.gms.tasks.Tasks.call
+import io.reactivex.Observable
+import io.reactivex.functions.Function
+import kotlinx.android.synthetic.main.activity_main.*
 
 class ListActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
@@ -112,9 +116,12 @@ class ListActivity : AppCompatActivity() {
         disposable?.dispose()
         disposable2?.dispose()
     }
-    private fun saveCosmetic(name: String, cosmetic: List<Fields>){
+
+    private fun saveCosmetic(name: String, cosmetic: List<Fields>){       // sprawdzenie czy składniki są już w bazie i wywołanie zapisu
 
         val ingredientList = mutableListOf<Int>()
+        val iL= arrayListOf<Ingredient_db>()
+
         val serviceIng = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -123,93 +130,82 @@ class ListActivity : AppCompatActivity() {
             .create(DatabaseIngredientService::class.java)
 
         val servicePostIng = Retrofit.Builder()
-                .baseUrl(baseURL) //base address of REST api for db
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(DatabasePOSTIngredientService::class.java)
-
-        val result = serviceIng.getIngredient()
-                //TODO: zrobić synchroniczny call żeby najpierw dodawał potemkosmetyk
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+            .baseUrl(baseURL) //base address of REST api for db
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(DatabasePOSTIngredientService::class.java)
+        
+        val ingredientObservables = mutableListOf<Observable<Ingredient_db>>()
+        val disposable2 = serviceIng.getIngredient()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
                     { result ->
-
                         for (ingredient in cosmetic){
+
                             val id = result.find{it.name==ingredient.inci_name}?.id
                             println(id.toString())
                             if (id != null){
                                 ingredientList.add(id)
                                 println(id.toString())
                                 println(ingredientList.toString())
+                                println("hoho")
                             }else{
-                               val idNew = result.last().id+1
-                               val ingredientDb = Ingredient_db(idNew, ingredient.inci_name, ingredient.function, false)
-                               servicePostIng.postIngredient(ingredientDb)
-                                   .enqueue( object : Callback<Ingredient_db>{
-                                       override fun onResponse(
-                                           call: Call<Ingredient_db>,
-                                           response: Response<Ingredient_db>) {
-                                           if (response.isSuccessful){
-                                                if (response.body() != null){
-                                                    println(response.body().toString())
-                                                    ingredientList.add(response.body()!!.id)
-                                                    Toast.makeText(applicationContext, "new ingredient added successfully", Toast.LENGTH_SHORT).show()
-                                                }
-
-                                           }else{
-                                               Toast.makeText(applicationContext, response.message(), Toast.LENGTH_SHORT).show()
-                                           }
-                                           }
-
-                                           override fun onFailure(call: Call<Ingredient_db>, t: Throwable) {
-                                               Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
-                                            }
-                                        }
-                                    )
+                                println("helloooo")
+                                var idNew = 0
+                                if (result.isNotEmpty()){
+                                    idNew = result.last().id+1
+                                }
+                                println(idNew.toString())
+                                val ingredientDb = Ingredient_db(idNew, ingredient.inci_name, ingredient.function, false)
+                                ingredientObservables.add(servicePostIng.postIngredient(ingredientDb).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()))
+                                ingredientList.add(idNew)
                            }
                         }
+                        if (ingredientObservables.isNotEmpty()){
+                            Observable.zip(ingredientObservables) {
+                                list -> list.asList()
+                            } .subscribeOn(Schedulers.io())
+                              .observeOn(AndroidSchedulers.mainThread())
+                              .subscribe({
+                                  @Suppress("UNCHECKED_CAST") val result = it as List<Ingredient_db>
+                                  println("xd")
+                                  println(ingredientList.toString())
+                                  cosmeticPost(name, ingredientList)
+                              },{
+                                  err ->  Toast.makeText(applicationContext, err.message, Toast.LENGTH_SHORT).show()
+                              })
+                        }else{
+                              cosmeticPost(name, ingredientList)
+                        }
                     },
-                    { error -> Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show() }
-                    )
-
+                    {error ->   Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show()
+                    })
+    }
+    private fun cosmeticPost( name:String, ingredientList: List<Int>){       // zapis kosmetyku do bazy danych
         val serviceCosm = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(DatabasePOSTService::class.java)
-
-        println(ingredientList.toString())
-
-        if (ingredientList.isNotEmpty()){
-            val ingrediens = ingredientList.toIntArray().toTypedArray()
-            val cosmeticDb = Cosmetic_save(name, false, ingrediens)
-
-            serviceCosm.postCosmetics(cosmeticDb)
-                .enqueue(
-                    object : Callback<Cosmetic_save>{
-                        override fun onResponse(
-                            call: Call<Cosmetic_save>,
-                            response: Response<Cosmetic_save>
-                        ) {
-                            if (response.isSuccessful){
-                                Toast.makeText(applicationContext, "saved successfully", Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(applicationContext, response.message(), Toast.LENGTH_SHORT).show()
-                            }
-
-                        }
-
-                        override fun onFailure(call: Call<Cosmetic_save>, t: Throwable) {
-                            Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                )
-        }
-
+             val ingrediens = ingredientList.toIntArray().toTypedArray()
+             val cosmeticDb = Cosmetic_save(name, false, ingrediens)
+              serviceCosm.postCosmetics(cosmeticDb)
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(
+                      {
+                        Toast.makeText(applicationContext,"saved successfully",Toast.LENGTH_SHORT).show()
+                      },
+                      {
+                          error -> Toast.makeText(applicationContext,error.message,Toast.LENGTH_SHORT).show()
+                      }
+                  )
     }
 
-    private fun showAddItemDialog(c: Context) {
+    private fun showAddItemDialog(c: Context) {     // funkcja ta wyświetlaokno z zapytaniem onazwę kosmetyku i inicjalizuje zapis dobazy danych
         val taskEditText = EditText(c)
         val dialog = AlertDialog.Builder(c)
             .setTitle("Cosmetic name")
@@ -224,12 +220,3 @@ class ListActivity : AppCompatActivity() {
         dialog.show()
     }
 }
-
-
-
-
-
-
-
-
-

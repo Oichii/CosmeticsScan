@@ -12,7 +12,7 @@ interface DatabaseService {
 interface DatabasePOSTService {
         @Headers("content-type: application/json")
         @POST("/cosmetic/")
-        fun postCosmetics(@Body cosmeticDb: Cosmetic_save): Call<Cosmetic_save>
+        fun postCosmetics(@Body cosmeticDb: Cosmetic_save): Observable<Cosmetic_save>
 }
 
 interface DatabaseIngredientService {
@@ -23,5 +23,5 @@ interface DatabaseIngredientService {
 interface DatabasePOSTIngredientService {
         @Headers("content-type: application/json")
         @POST("/ingredient/")
-        fun postIngredient(@Body ingredientDb:Ingredient_db): Call<Ingredient_db>
+        fun postIngredient(@Body ingredientDb:Ingredient_db): Observable<Ingredient_db>
 }
