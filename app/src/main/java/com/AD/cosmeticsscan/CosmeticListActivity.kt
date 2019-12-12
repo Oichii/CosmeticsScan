@@ -16,14 +16,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CosmeticListActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
-    private var disposable_ing: Disposable? = null
-    private val baseURL = "http://192.168.0.17:8000"
+    private val baseURL =  "http://192.168.0.17:8000"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cosmetic_list)
         setSupportActionBar(toolbar)
 
-        val service_cosm = Retrofit.Builder()
+        val serviceCosm = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,7 +31,7 @@ class CosmeticListActivity : AppCompatActivity() {
             .create(DatabaseService::class.java)
 
         val cosmeticsLayout = findViewById<LinearLayout>(R.id.ListofCosmetics)
-        disposable = service_cosm.getCosmetics()
+        disposable = serviceCosm.getCosmetics()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -46,5 +46,10 @@ class CosmeticListActivity : AppCompatActivity() {
                 { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
             )
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        disposable?.dispose()
     }
 }

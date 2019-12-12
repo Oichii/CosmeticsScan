@@ -6,6 +6,8 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
+    <string name="base_URL">http://192.168.0.17:8000</string>
+
     // actionbar text
     <string name="action_settings">Settings</string>
     <string name="action_help">Help</string>
@@ -39,8 +41,9 @@
     <string name="ingredient_description">%1$s. Ingredient %2$s is: %3$s\n</string>
     <string name="cosmetic_description">Name: %1$s \n</string>
     <string name="action_save">Save</string>
-    <string name="action_favourite">favourite ingredients</string>
+    <string name="action_favourite">Favourites</string>
     <string name="title_activity_cosmetic_list">CosmeticListActivity</string>
+    <string name="select_photo">select another photo</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -130,4 +133,5 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="title_favourite_cosmetic">Favourite Cosmetics</string>
 </resources>

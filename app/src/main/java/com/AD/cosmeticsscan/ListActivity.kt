@@ -34,8 +34,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 class ListActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
     private var disposable2: Disposable? = null
+    private var disposable3: Disposable? = null
     private val baseURL = "http://192.168.0.17:8000"
-    private var currentCosmetic = mutableListOf<com.AD.cosmeticsscan.Fields>()
+    private var currentCosmetic = mutableListOf<Fields>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +89,7 @@ class ListActivity : AppCompatActivity() {
         }else {
             val tvdynamic = TextView(this)
             tvdynamic.textSize = 20f
-            tvdynamic.text = "select another photo" //replace this with value
+            tvdynamic.text = getString(R.string.select_photo)
             linearLayout.addView(tvdynamic)
         }
     }
@@ -102,9 +103,8 @@ class ListActivity : AppCompatActivity() {
         // Adds functionaries to menu buttons
         return when (item.itemId) {
             R.id.saveButton -> {
-//                // TODO: add saveing to database
-                showAddItemDialog(this)
 
+                showAddItemDialog(this)
                 return true
             }
 
@@ -115,12 +115,13 @@ class ListActivity : AppCompatActivity() {
         super.onPause()
         disposable?.dispose()
         disposable2?.dispose()
+        disposable3?.dispose()
     }
 
     private fun saveCosmetic(name: String, cosmetic: List<Fields>){       // sprawdzenie czy składniki są już w bazie i wywołanie zapisu
 
         val ingredientList = mutableListOf<Int>()
-        val iL= arrayListOf<Ingredient_db>()
+
 
         val serviceIng = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
@@ -169,9 +170,6 @@ class ListActivity : AppCompatActivity() {
                             } .subscribeOn(Schedulers.io())
                               .observeOn(AndroidSchedulers.mainThread())
                               .subscribe({
-                                  @Suppress("UNCHECKED_CAST") val result = it as List<Ingredient_db>
-                                  println("xd")
-                                  println(ingredientList.toString())
                                   cosmeticPost(name, ingredientList)
                               },{
                                   err ->  Toast.makeText(applicationContext, err.message, Toast.LENGTH_SHORT).show()
@@ -183,6 +181,7 @@ class ListActivity : AppCompatActivity() {
                     {error ->   Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show()
                     })
     }
+
     private fun cosmeticPost( name:String, ingredientList: List<Int>){       // zapis kosmetyku do bazy danych
         val serviceCosm = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
@@ -192,7 +191,7 @@ class ListActivity : AppCompatActivity() {
             .create(DatabasePOSTService::class.java)
              val ingrediens = ingredientList.toIntArray().toTypedArray()
              val cosmeticDb = Cosmetic_save(name, false, ingrediens)
-              serviceCosm.postCosmetics(cosmeticDb)
+              disposable3 = serviceCosm.postCosmetics(cosmeticDb)
                   .subscribeOn(Schedulers.io())
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribe(
@@ -208,10 +207,10 @@ class ListActivity : AppCompatActivity() {
     private fun showAddItemDialog(c: Context) {     // funkcja ta wyświetlaokno z zapytaniem onazwę kosmetyku i inicjalizuje zapis dobazy danych
         val taskEditText = EditText(c)
         val dialog = AlertDialog.Builder(c)
-            .setTitle("Cosmetic name")
+            .setTitle("Save as Favourite")
             .setMessage("Insert name of the cosmetic to save")
             .setView(taskEditText)
-            .setPositiveButton("Save") { dialog, which ->
+            .setPositiveButton("Save") { _, _ ->
                     val currentName = taskEditText.text.toString()
                     saveCosmetic(currentName, currentCosmetic)
                 }
