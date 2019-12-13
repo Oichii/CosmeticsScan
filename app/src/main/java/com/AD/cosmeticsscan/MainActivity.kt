@@ -25,16 +25,15 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
-    var count = 0
+
     val PICK_IMAGE_CODE = 666
     val PERMISSION_CODE = 333
     var ingreedients_list = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ingredient.setMovementMethod(ScrollingMovementMethod())
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
+    override fun onRequestPermissionsResult( //requesting permission to access gallery
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
@@ -101,16 +100,16 @@ class MainActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pickImageFromGallery()
                 } else {
-                    Toast.makeText(this, "please let me see your photos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "gallery access is needed", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private fun pickImageFromGallery() {
+    private fun pickImageFromGallery() { //selecting image from gallery
         val intent = Intent(ACTION_GET_CONTENT)
         intent.type = "image/*"
-        startActivityForResult(Intent.createChooser(intent, "sellect image"), PICK_IMAGE_CODE)
+        startActivityForResult(Intent.createChooser(intent, "select image"), PICK_IMAGE_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -131,22 +130,24 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "no text found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.not_found), Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
-   private fun analyze(){
+    private fun analyze(){ // function to open activity with ingredient analyses
        ingreedients_list = ingredient.text.toString()
        val intent = Intent(this, ListActivity:: class.java)
        intent.putExtra("ingredients_list", ingreedients_list)
        startActivity(intent)
-   }
-    private fun getHelp(){
+    }
+
+    private fun getHelp(){ //function to open activity with user manual
         val intent = Intent(this, HelpActivity:: class.java)
         startActivity(intent)
     }
-    private fun browseFavs(){
+
+    private fun browseFavs(){ //function to open activity with list of saved cosmetics
         val intent = Intent(this, CosmeticListActivity:: class.java)
         startActivity(intent)
     }

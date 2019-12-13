@@ -11,25 +11,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_list.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
-import android.R.id
 import android.content.Context
-import android.content.DialogInterface
 import android.widget.EditText
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.appcompat.app.AlertDialog
-import com.google.android.gms.tasks.Tasks.call
 import io.reactivex.Observable
-import io.reactivex.functions.Function
-import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class ListActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
@@ -42,7 +31,7 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(cosmeticName)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val linearLayout = findViewById<LinearLayout>(R.id.linear)
@@ -77,7 +66,7 @@ class ListActivity : AppCompatActivity() {
                             { result ->
                                 val tvdynamic = TextView(this)
                                 tvdynamic.textSize = 20f
-                                tvdynamic.text = getString(R.string.ingredient_description, (number+1).toString(), element.toLowerCase(), result.records[0].fields.function.toLowerCase())
+                                tvdynamic.text = getString(R.string.ingredient_description, (number+1).toString(), element.toLowerCase(Locale.getDefault()), result.records[0].fields.function.toLowerCase(Locale.getDefault()))
                                 linearLayout.addView(tvdynamic)
                                 currentCosmetic.add(result.records[0].fields)
                             },
@@ -146,19 +135,13 @@ class ListActivity : AppCompatActivity() {
                         for (ingredient in cosmetic){
 
                             val id = result.find{it.name==ingredient.inci_name}?.id
-                            println(id.toString())
                             if (id != null){
                                 ingredientList.add(id)
-                                println(id.toString())
-                                println(ingredientList.toString())
-                                println("hoho")
                             }else{
-                                println("helloooo")
                                 var idNew = 0
                                 if (result.isNotEmpty()){
                                     idNew = result.last().id+1
                                 }
-                                println(idNew.toString())
                                 val ingredientDb = Ingredient_db(idNew, ingredient.inci_name, ingredient.function, false)
                                 ingredientObservables.add(servicePostIng.postIngredient(ingredientDb).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()))
                                 ingredientList.add(idNew)

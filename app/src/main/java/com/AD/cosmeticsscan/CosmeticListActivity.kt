@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -22,7 +21,7 @@ class CosmeticListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cosmetic_list)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(cosmeticName)
 
         val serviceCosm = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
@@ -45,8 +44,8 @@ class CosmeticListActivity : AppCompatActivity() {
                         tvdynamic.textSize = 25f
                         tvdynamic.text = getString(R.string.cosmetic_description, cosm.name)
                         cosmeticsLayout.addView(tvdynamic)
-                        tvdynamic.setOnClickListener(){
-                            openCosmetic()
+                        tvdynamic.setOnClickListener{
+                            openCosmetic(cosm.name)
                         }
                     }
                     },
@@ -60,8 +59,10 @@ class CosmeticListActivity : AppCompatActivity() {
         disposable?.dispose()
     }
 
-    private fun openCosmetic(){
+    private fun openCosmetic(name:String){ //opens activity with ingredients of saved cosmetic
         val intent = Intent(this, CosmeticActivity:: class.java)
+        intent.putExtra("cosmetic_name", name)
         startActivity(intent)
+        println(name)
     }
 }
