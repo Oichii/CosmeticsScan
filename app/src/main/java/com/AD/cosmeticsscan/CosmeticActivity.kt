@@ -1,6 +1,5 @@
 package com.AD.cosmeticsscan
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -10,58 +9,49 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_cosmetic_list.*
+import kotlinx.android.synthetic.main.activity_cosmetic.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class CosmeticListActivity : AppCompatActivity() {
+class CosmeticActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
     private val baseURL =  "http://192.168.0.17:8000"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cosmetic_list)
+        setContentView(R.layout.activity_cosmetic)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val serviceCosm = Retrofit.Builder()
+        val serviceIng = Retrofit.Builder()
             .baseUrl(baseURL) //base address of REST api for db
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(DatabaseService::class.java)
+            .create(DatabaseIngredientService::class.java)
 
         val cosmetics = mutableListOf<TextView>()
 
-        val cosmeticsLayout = findViewById<LinearLayout>(R.id.ListofCosmetics)
-        disposable = serviceCosm.getCosmetics()
+        val ingredientLayout = findViewById<LinearLayout>(R.id.ListofIngredients)
+        disposable = serviceIng.getIngredient()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
-                    for (cosm in result){
+                    for ((num, ingr) in result.withIndex()){
                         val tvdynamic = TextView(this)
                         cosmetics.add(tvdynamic)
                         tvdynamic.textSize = 25f
-                        tvdynamic.text = getString(R.string.cosmetic_description, cosm.name)
-                        cosmeticsLayout.addView(tvdynamic)
-                        tvdynamic.setOnClickListener(){
-                            openCosmetic()
-                        }
+                        tvdynamic.text = getString(R.string.ingredient_description, (num+1).toString(),  ingr.name.toLowerCase(), ingr.function.toLowerCase())
+                        ingredientLayout.addView(tvdynamic)
                     }
-                    },
+                },
                 { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
             )
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-
     override fun onPause() {
         super.onPause()
         disposable?.dispose()
-    }
-
-    private fun openCosmetic(){
-        val intent = Intent(this, CosmeticActivity:: class.java)
-        startActivity(intent)
     }
 }
