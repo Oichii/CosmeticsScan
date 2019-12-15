@@ -45,7 +45,7 @@ class CosmeticListActivity : AppCompatActivity() {
                         tvdynamic.text = getString(R.string.cosmetic_description, cosm.name)
                         cosmeticsLayout.addView(tvdynamic)
                         tvdynamic.setOnClickListener{
-                            openCosmetic(cosm.name)
+                            openCosmetic(cosm.name, cosm.ingredients)
                         }
                     }
                     },
@@ -59,10 +59,14 @@ class CosmeticListActivity : AppCompatActivity() {
         disposable?.dispose()
     }
 
-    private fun openCosmetic(name:String){ //opens activity with ingredients of saved cosmetic
+    private fun openCosmetic(name:String, ing_list: Array<Int>){ //opens activity with ingredients of saved cosmetic
         val intent = Intent(this, CosmeticActivity:: class.java)
-        intent.putExtra("cosmetic_name", name)
+
+        val extras = Bundle()
+        extras.putString("cosmetic_name", name)
+        extras.putIntArray("ingredients_list", ing_list.toIntArray())
+        intent.putExtras(extras)
         startActivity(intent)
-        println(name)
     }
+
 }

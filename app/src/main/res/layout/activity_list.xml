@@ -30,7 +30,7 @@
                 android:contentDescription="@string/bg_action"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                app:srcCompat="@mipmap/leafs" />
+                app:srcCompat="@drawable/leafs" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/cosmeticName"

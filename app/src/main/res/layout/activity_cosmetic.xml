@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/bg_action"
                 android:scaleType="centerCrop"
-                app:srcCompat="@mipmap/leafs" />
+                app:srcCompat="@drawable/leafs" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/cosmeticName"

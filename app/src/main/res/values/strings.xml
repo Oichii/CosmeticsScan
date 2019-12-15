@@ -37,6 +37,7 @@
     <string name="recognised_label">Ingredients Found:</string>
 
     <string name="ingredient_description">%1$s. Ingredient %2$s is: %3$s\n</string>
+    <string name="ingredient_not_found">%1$s. Ingredient %2$s not found in database\n</string>
     <string name="cosmetic_description">Name: %1$s \n</string>
     <string name="action_save">Save</string>
     <string name="action_favourite">Favourites</string>

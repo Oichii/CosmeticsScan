@@ -53,22 +53,31 @@ class ListActivity : AppCompatActivity() {
                 val iList = ingredientList.replace("\\s".toRegex(), " ")
                 val elements = iList.split(",")
                 // loop over every element of the ingredients list to call for the description
-                var i = 0
+                val ingredientTextView = mutableListOf<TextView>()
+                for ((number, _) in elements.withIndex()){
+                    ingredientTextView.add(number, TextView(this))
+                    ingredientTextView[number].textSize = 20f
+                    linearLayout.addView(ingredientTextView[number])
+                }
+
                 for((number, element)in elements.withIndex()){
-                    i++
                     // TODO: sort ingredients in previous order
                     // TODO: check if restriction is present and if is print it as well
                     // TODO: add buttons to set ingredient as favourite
+
                     disposable = service.checkIngredient("cosmetic-ingredient-database-ingredients-and-fragrance-inventory",element, 1)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             { result ->
-                                val tvdynamic = TextView(this)
-                                tvdynamic.textSize = 20f
-                                tvdynamic.text = getString(R.string.ingredient_description, (number+1).toString(), element.toLowerCase(Locale.getDefault()), result.records[0].fields.function.toLowerCase(Locale.getDefault()))
-                                linearLayout.addView(tvdynamic)
-                                currentCosmetic.add(result.records[0].fields)
+
+                                if (result.nhits==0){
+                                    ingredientTextView[number].text = getString(R.string.ingredient_not_found, (number+1).toString(), element.toLowerCase(Locale.getDefault()))
+                                }else{
+                                    ingredientTextView[number].text = getString(R.string.ingredient_description, (number+1).toString(), element.toLowerCase(Locale.getDefault()), result.records[0].fields.function.toLowerCase(Locale.getDefault()))
+                                    currentCosmetic.add(result.records[0].fields)
+                                }
+
                             },
 
                             { error -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show() }
