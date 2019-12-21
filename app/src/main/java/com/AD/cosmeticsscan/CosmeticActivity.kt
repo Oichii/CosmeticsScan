@@ -1,6 +1,5 @@
 package com.AD.cosmeticsscan
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -54,7 +53,7 @@ class CosmeticActivity : AppCompatActivity() {
                     { result ->
                         for((num,ingr) in ing_list.withIndex()){
                             val ingredient = result.find { it.id == ingr }
-                            ingredientTextView[num].text = getString(R.string.ingredient_description, (num+1).toString(), ingredient!!.name, ingredient!!.function)
+                            ingredientTextView[num].text = getString(R.string.ingredient_description, (num+1).toString(), ingredient!!.name, ingredient.function)
                         }
 
                     },

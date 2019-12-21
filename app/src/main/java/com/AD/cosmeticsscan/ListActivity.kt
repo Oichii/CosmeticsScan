@@ -61,9 +61,7 @@ class ListActivity : AppCompatActivity() {
                 }
 
                 for((number, element)in elements.withIndex()){
-                    // TODO: sort ingredients in previous order
                     // TODO: check if restriction is present and if is print it as well
-                    // TODO: add buttons to set ingredient as favourite
 
                     disposable = service.checkIngredient("cosmetic-ingredient-database-ingredients-and-fragrance-inventory",element, 1)
                         .subscribeOn(Schedulers.io())
@@ -136,7 +134,7 @@ class ListActivity : AppCompatActivity() {
             .create(DatabasePOSTIngredientService::class.java)
         
         val ingredientObservables = mutableListOf<Observable<Ingredient_db>>()
-        val disposable2 = serviceIng.getIngredient()
+            serviceIng.getIngredient()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -188,7 +186,7 @@ class ListActivity : AppCompatActivity() {
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribe(
                       {
-                        Toast.makeText(applicationContext,"saved successfully",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,getString(R.string.saved),Toast.LENGTH_SHORT).show()
                       },
                       {
                           error -> Toast.makeText(applicationContext,error.message,Toast.LENGTH_SHORT).show()
@@ -196,7 +194,7 @@ class ListActivity : AppCompatActivity() {
                   )
     }
 
-    private fun showAddItemDialog(c: Context) {     // funkcja ta wyświetlaokno z zapytaniem onazwę kosmetyku i inicjalizuje zapis dobazy danych
+    private fun showAddItemDialog(c: Context) {     // funkcja ta wyświetla okno z zapytaniem o nazwę kosmetyku i inicjalizuje zapis do bazy danych
         val taskEditText = EditText(c)
         val dialog = AlertDialog.Builder(c)
             .setTitle("Save as Favourite")

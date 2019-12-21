@@ -1,11 +1,8 @@
 package com.AD.cosmeticsscan
 
 import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
-import android.view.ViewGroup
 import android.widget.*
-import android.widget.RelativeLayout.ALIGN_PARENT_RIGHT
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -14,15 +11,6 @@ import kotlinx.android.synthetic.main.activity_cosmetic_list.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import android.widget.RelativeLayout
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.widget.RelativeLayout.ALIGN_PARENT_LEFT
-import kotlinx.android.synthetic.main.activity_main.view.*
-import com.google.android.gms.tasks.Task
-import okhttp3.Response
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -121,7 +109,7 @@ class CosmeticListActivity : AppCompatActivity() {
 
         serviceCosm.delCosmetic(id).enqueue(object : Callback<Void> {
             override fun onResponse( call: Call<Void>? , response: retrofit2.Response<Void>?) {
-                Toast.makeText(applicationContext, "deleted successfully" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.deleted) , Toast.LENGTH_SHORT).show()
 
             }
 

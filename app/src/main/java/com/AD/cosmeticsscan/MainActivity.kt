@@ -2,14 +2,11 @@ package com.AD.cosmeticsscan
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
-import android.content.Intent.ACTION_PICK
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.pm.PackageManager
 import android.text.method.ScrollingMovementMethod
@@ -18,11 +15,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
-import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -100,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     pickImageFromGallery()
                 } else {
-                    Toast.makeText(this, "gallery access is needed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.gallery_access), Toast.LENGTH_SHORT).show()
                 }
             }
         }

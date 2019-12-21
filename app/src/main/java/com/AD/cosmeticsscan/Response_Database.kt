@@ -1,7 +1,7 @@
 package com.AD.cosmeticsscan
 
 // classes used to describe format of JSON files used by database
-// response from database to save ingredients
+// response from database to save favourite ingredients
 
 data class Cosmetic_db(
     val id: Int,
@@ -23,9 +23,4 @@ data class Ingredient_db(
     val favourite: Boolean
 )
 
-data class Ingredient_save(
-    val name: String,
-    val function: String,
-    val favourite: Boolean
-)
 
